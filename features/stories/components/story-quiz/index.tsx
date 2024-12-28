@@ -13,7 +13,7 @@ During its golden age, Atlantis was led by wise philosopher-kings who governed w
 
 ## The Fall
 
-But pride led to their downfall. As their power grew, so did their ambition. They began to conquer neighboring lands, until the gods themselves decided to intervene.
+But pride led to their. As their power grew, so did their ambition. They began to conquer neighboring lands, until the gods themselves decided to intervene.
 
 ## The Legacy
 

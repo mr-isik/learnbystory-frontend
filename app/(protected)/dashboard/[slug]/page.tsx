@@ -1,6 +1,5 @@
-import ActionButton from "@/components/global/generate-button";
 import StoryShowcase from "@/features/stories/components/carousel";
-import { Sparkles } from "lucide-react";
+import GenerateButton from "@/features/stories/components/generate-button";
 import React from "react";
 
 type Props = {
@@ -17,10 +16,10 @@ const Page = ({ params }: Props) => {
       </h3>
 
       <div className="px-12 mx-auto container">
-        <StoryShowcase />
+        <StoryShowcase slug={params.slug} />
       </div>
 
-      <ActionButton text="Generate" icon={<Sparkles size={16} />} />
+      <GenerateButton />
     </div>
   );
 };

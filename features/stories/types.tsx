@@ -6,3 +6,10 @@ export type Story = {
   result: string;
   createdAt: Date;
 };
+
+export type Question = {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+};

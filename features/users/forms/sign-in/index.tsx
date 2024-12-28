@@ -4,7 +4,6 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import {
   Form,
@@ -24,6 +23,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/components/ui/password-input";
+import { useSignIn } from "@/hooks/queries/auth";
+import Loader from "@/components/global/loader";
 
 // Improved schema with additional validation rules
 const formSchema = z.object({
@@ -43,19 +44,10 @@ export default function SignInForm() {
     },
   });
 
+  const { mutate: signin, isPending } = useSignIn();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      // Assuming an async login function
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
-    }
+    signin(values);
   }
 
   return (
@@ -117,7 +109,7 @@ export default function SignInForm() {
                   )}
                 />
                 <Button type="submit" className="w-full">
-                  Sign In
+                  <Loader state={isPending}>Sign In</Loader>
                 </Button>
               </div>
             </form>

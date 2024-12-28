@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
+import { useLogout } from "@/hooks/queries/auth";
+import Loader from "@/components/global/loader";
 
 type Props = {
   slug: string;
@@ -21,6 +23,8 @@ const UserButton: React.FC<Props> = ({ slug }) => {
     // Replace this with the actual user image
     image: "https://randomuser.me/api",
   };
+
+  const { mutate: logout, isPending } = useLogout();
 
   return (
     <Popover>
@@ -49,15 +53,16 @@ const UserButton: React.FC<Props> = ({ slug }) => {
               </Button>
             </Link>
 
-            <Link href="/api/auth/signout">
-              <Button
-                variant="ghost"
-                className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-100"
-              >
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-100"
+              onClick={() => logout()}
+            >
+              <Loader state={isPending}>
                 <LogOut size={16} />
-                Sign Out
-              </Button>
-            </Link>
+              </Loader>
+              Sign Out
+            </Button>
           </div>
         </div>
       </PopoverContent>

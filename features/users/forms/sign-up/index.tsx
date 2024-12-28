@@ -4,7 +4,6 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import {
   Form,
@@ -24,8 +23,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/components/ui/password-input";
+import { useSignup } from "@/hooks/queries/auth";
+import Loader from "@/components/global/loader";
 
-// Define validation schema using Zod
 const formSchema = z
   .object({
     name: z
@@ -53,20 +53,16 @@ export default function SignUpForm() {
       confirmPassword: "",
     },
   });
+  const { mutate: signup, isPending } = useSignup();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      // Assuming an async registration function
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
-    }
+    const data = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    };
+
+    signup(data);
   }
 
   return (
@@ -97,7 +93,6 @@ export default function SignUpForm() {
                   )}
                 />
 
-                {/* Email Field */}
                 <FormField
                   control={form.control}
                   name="email"
@@ -161,7 +156,7 @@ export default function SignUpForm() {
                 />
 
                 <Button type="submit" className="w-full">
-                  Register
+                  <Loader state={isPending}>Register</Loader>
                 </Button>
               </div>
             </form>
